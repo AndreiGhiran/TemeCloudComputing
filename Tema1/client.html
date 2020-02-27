@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Step 1: Generate a random number between Min and Max</h2>
+    <label>Min:</label>
+    <input type="number" id="min">
+    <p><label for="">Max:</label>
+    <input type="number" id="max">
+    </p>
+    <Button id="generateNumber">Generate Number</Button>
+    <div id = "generatedNumber"></div>
+    <h2>Step 2: Get your location</h2>
+    <Button id="generateLocation">Get your location</Button>
+    <div id = "generatedLocation"></div>
+    <h2>Step 3: Get popular song recomandations based on the number generated above and your location</h2>
+    <button id = "generateSugestions">Generate Recomandations</button>
+    <ol id = "recomandations">
+
+    </ol>
+</body>
+<script>
+
+    function generate_num(min,max){
+        const Http = new XMLHttpRequest();
+        const url = `http://localhost:3000/?request=generateNumber&min=${min}&max=${max}`;
+        //console.log(url);
+        Http.open("GET", url);
+        Http.send();
+        const storage = window.localStorage;
+        Http.onreadystatechange = function () {
+            var res = Http.responseText;
+            if (this.readyState == 4 && this.status == 200){
+               // console.log(res);
+                markup = `<p>Your random number is ${res}</p>`;
+                const div = document.getElementById("generatedNumber");
+                div.innerHTML = markup;
+                storage.setItem("nr",res)
+            }
+        }
+    }
+
+    function get_location(){
+
+        function success(position) {
+        const latitude  = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const storage = window.localStorage;
+        const Http = new XMLHttpRequest();
+        const url = `http://localhost:3000/?request=generateLocation&lat=${latitude}&long=${longitude}`;
+        //console.log(url);
+        Http.open("GET", url);
+        Http.send();
+
+        Http.onreadystatechange = function () { 
+            var res = Http.responseText;
+            if (this.readyState == 4 && this.status == 200){
+                //console.log(res);
+                markup = `<p>You are living in ${res}</p>`;
+                const div = document.getElementById("generatedLocation");
+                div.innerHTML = markup;
+                storage.setItem("loc",res.split(" ")[1]);
+            }
+        }
+
+        }
+
+        function error() {
+        status.textContent = 'Unable to retrieve your location';
+        }
+
+        
+        if (!navigator.geolocation) {
+        status.textContent = 'Geolocation is not supported by your browser';
+        } else {
+        status.textContent = 'Locating…';
+        navigator.geolocation.getCurrentPosition(success, error);
+        }
+    }
+
+    function get_recom(){
+        const storage = window.localStorage;
+        const loc = storage.getItem("loc");
+        const nr = storage.getItem("nr");
+        console.log(loc,nr);
+        const Http = new XMLHttpRequest();
+        const url = `http://localhost:3000/?request=generateRecomandations&nr=${nr}&loc=${loc}`;
+        //console.log(url);
+        Http.open("GET", url);
+        Http.send();
+
+        Http.onreadystatechange = function () { 
+            var rec_list = document.getElementById("recomandations");
+            rec_list.innerHTML = "";
+            var res = Http.responseText;
+            if (this.readyState == 4 && this.status == 200){
+                res= JSON.parse(res)
+                for (var i = 0; i<nr; i++)
+                { 
+                    markup = res[i];
+                    rec_list = document.getElementById("recomandations");
+                    paragraf = document.createElement('li');
+                    paragraf.innerHTML = markup;
+                    rec_list.appendChild(paragraf);
+                }
+            }
+        }
+    }
+
+
+    const geberate_butt = document.getElementById("generateNumber");
+    const generate_tag =document.getElementById("generateLocation");
+    const generate_recom = document.getElementById("generateSugestions");
+
+
+    geberate_butt.addEventListener("click", function(){
+        //console.log("click");
+        const min = document.getElementById("min");
+        var nr_min = min.value;
+        const max = document.getElementById("max");
+        var nr_max = max.value;
+        
+        number = generate_num(nr_min,nr_max);
+    });
+
+    generate_tag.addEventListener("click", function(){
+        get_location();
+    });
+
+    generate_recom.addEventListener("click", function(){
+        get_recom();
+    });
+</script>
+</html>
