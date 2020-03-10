@@ -36,18 +36,43 @@ const app = http.createServer((request, response) => {
                 console.log("colection request");
                 switch (request.method) {
                     case "GET":
-                        console.log("Get");
+
+
+                        var exists = false;
                         MongoClient.connect(uri, function (err, db) {
                             if (err) throw err;
                             var dbo = db.db("Movies");
-                            dbo.collection(coll).find({}).toArray(function (err, result) {
-                                if (err) throw err;
-                                console.log(Object.keys(JSON.parse(JSON.stringify(result))).length);
-                                response.writeHead(200, { "Content-Type": "application/json" });
-                                response.write(JSON.stringify(result));
-                                response.end();
-                                db.close();
-                            });
+                            dbo.listCollections({ name: coll })
+                                .next(function (err, collinfo) {
+                                    if (collinfo) {
+                                        exists = true;
+                                    }
+
+                                    console.log(exists);
+                                    if (!exists) {
+
+                                        response.writeHead(404, { "Content-Type": "application/json" });
+                                        response.write("Collection does not exists");
+                                        response.end();
+                                    }
+                                    else {
+
+                                        console.log("Get");
+                                        MongoClient.connect(uri, function (err, db) {
+                                            if (err) throw err;
+                                            var dbo = db.db("Movies");
+                                            dbo.collection(coll).find({}).toArray(function (err, result) {
+                                                if (err) throw err;
+                                                console.log(Object.keys(JSON.parse(JSON.stringify(result))).length);
+                                                response.writeHead(200, { "Content-Type": "application/json" });
+                                                response.write(JSON.stringify(result));
+                                                response.end();
+                                                db.close();
+                                            });
+                                        });
+
+                                    }
+                                });
                         });
 
 
@@ -113,7 +138,7 @@ const app = http.createServer((request, response) => {
                                         response.end();
                                     }
                                     else {
-                                        
+
                                         MongoClient.connect(uri, function (err, db) {
                                             if (err) throw err;
                                             var dbo = db.db("Movies");
@@ -138,23 +163,45 @@ const app = http.createServer((request, response) => {
                         response.end();
                 }
                 break;
-            case "item":    
+            case "item":
                 switch (request.method) {
                     case "GET":
                         console.log("Get");
                         var param1 = params.split("&")[0].split("=")[1];
                         console.log(param1)
+                        var exists = false;
+
+
                         MongoClient.connect(uri, function (err, db) {
                             if (err) throw err;
                             var dbo = db.db("Movies");
                             var query = { movie_name: param1 };
                             dbo.collection(coll).find(query).toArray(function (err, result) {
                                 if (err) throw err;
-                                console.log(result);
-                                response.writeHead(200, { "Content-Type": "application/json" });
-                                response.write(JSON.stringify(result));
-                                response.end();
-                                db.close();
+                                if (Object.keys(JSON.parse(JSON.stringify(result))).length != 0)
+                                    exists = true;
+                                if (!exists) {
+                                    console.log("1 document inserted");
+                                    response.writeHead(404, { "Content-Type": "application/json" });
+                                    response.write("Movie not found");
+                                    response.end();
+                                    db.close();
+                                }
+                                else {
+                                    MongoClient.connect(uri, function (err, db) {
+                                        if (err) throw err;
+                                        var dbo = db.db("Movies");
+                                        var query = { movie_name: param1 };
+                                        dbo.collection(coll).find(query).toArray(function (err, result) {
+                                            if (err) throw err;
+                                            console.log(result);
+                                            response.writeHead(200, { "Content-Type": "application/json" });
+                                            response.write(JSON.stringify(result));
+                                            response.end();
+                                            db.close();
+                                        });
+                                    });
+                                }
                             });
                         });
                         break;
