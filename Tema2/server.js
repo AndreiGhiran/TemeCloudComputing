@@ -25,7 +25,7 @@ const app = http.createServer((request, response) => {
         var params = url.split("/")[2];
     }
     catch (any) {
-        response.writeHead(400, { "Content-Type": "text/html" });
+        response.writeHead(400, { "Content-Type": "application/json" });
         response.write("unsuported request");
         response.end();
         good_req = false;
@@ -74,13 +74,13 @@ const app = http.createServer((request, response) => {
                                             console.log("Collection created!");
                                             db.close();
                                         });
-                                        response.writeHead(200, { "Content-Type": "text/html" });
+                                        response.writeHead(200, { "Content-Type": "application/json" });
                                         response.write("Collection created");
                                         response.end();
                                         db.close();
                                     }
                                     else {
-                                        response.writeHead(409, { "Content-Type": "text/html" });
+                                        response.writeHead(409, { "Content-Type": "application/json" });
                                         response.write("Collection already exists");
                                         response.end();
                                     }
@@ -89,7 +89,7 @@ const app = http.createServer((request, response) => {
                         break;
                     case "PUT":
                         console.log("Put")
-                        response.writeHead(405, { "Content-Type": "text/html" });
+                        response.writeHead(405, { "Content-Type": "application/json" });
                         response.write("Method Not Allowed");
                         response.end();
                         break;
@@ -108,7 +108,7 @@ const app = http.createServer((request, response) => {
                                     console.log(exists);
                                     if (!exists) {
 
-                                        response.writeHead(404, { "Content-Type": "text/html" });
+                                        response.writeHead(404, { "Content-Type": "application/json" });
                                         response.write("Collection does not exists");
                                         response.end();
                                     }
@@ -123,7 +123,7 @@ const app = http.createServer((request, response) => {
                                                 db.close();
                                             });
                                         });
-                                        response.writeHead(200, { "Content-Type": "text/html" });
+                                        response.writeHead(200, { "Content-Type": "application/json" });
                                         response.write("Collection deleted");
                                         response.end();
                                         db.close();
@@ -133,7 +133,7 @@ const app = http.createServer((request, response) => {
 
                         break;
                     default:
-                        response.writeHead(400, { "Content-Type": "text/html" });
+                        response.writeHead(400, { "Content-Type": "application/json" });
                         response.write("method unsuported");
                         response.end();
                 }
@@ -183,7 +183,7 @@ const app = http.createServer((request, response) => {
                                         dbo.collection(coll).insertOne(myobj, function (err, res) {
                                             if (err) throw err;
                                             console.log("1 document inserted");
-                                            response.writeHead(200, { "Content-Type": "text/html" });
+                                            response.writeHead(200, { "Content-Type": "application/json" });
                                             response.write("1 document inserted");
                                             response.end();
                                             db.close();
@@ -191,7 +191,7 @@ const app = http.createServer((request, response) => {
                                     });
                                 }
                                 else {
-                                    response.writeHead(409, { "Content-Type": "text/html" });
+                                    response.writeHead(409, { "Content-Type": "application/json" });
                                     response.write("Already exists");
                                     response.end();
                                     db.close();
@@ -226,7 +226,7 @@ const app = http.createServer((request, response) => {
                                         dbo.collection(coll).updateOne(myquery, newvalues, function (err, res) {
                                             if (err) throw err;
                                             console.log("1 document updated");
-                                            response.writeHead(200, { "Content-Type": "text/html" });
+                                            response.writeHead(200, { "Content-Type": "application/json" });
                                             response.write("Movie updated");
                                             response.end();
                                             db.close();
@@ -234,7 +234,7 @@ const app = http.createServer((request, response) => {
                                     });
                                 }
                                 else {
-                                    response.writeHead(404, { "Content-Type": "text/html" });
+                                    response.writeHead(404, { "Content-Type": "application/json" });
                                     response.write("Movie doesent exists");
                                     response.end();
                                     db.close();
@@ -264,7 +264,7 @@ const app = http.createServer((request, response) => {
                                         dbo.collection(coll).deleteOne(myquery, function (err, obj) {
                                             if (err) throw err;
                                             console.log("1 document deleted");
-                                            response.writeHead(200, { "Content-Type": "text/html" });
+                                            response.writeHead(200, { "Content-Type": "application/json" });
                                             response.write("1 document deleted");
                                             response.end();
                                             db.close();
@@ -273,7 +273,7 @@ const app = http.createServer((request, response) => {
                                     });
                                 }
                                 else {
-                                    response.writeHead(404, { "Content-Type": "text/html" });
+                                    response.writeHead(404, { "Content-Type": "application/json" });
                                     response.write("Movie not found");
                                     response.end();
                                     db.close();
@@ -283,14 +283,14 @@ const app = http.createServer((request, response) => {
 
                         break;
                     default:
-                        response.writeHead(400, { "Content-Type": "text/html" });
+                        response.writeHead(400, { "Content-Type": "" });
                         response.write("method unsuported");
                         response.end();
                 }
                 break;
             default:
                 console.log("unsuported request");
-                response.writeHead(400, { "Content-Type": "text/html" });
+                response.writeHead(400, { "Content-Type": "application/json" });
                 response.write("unsuported request")
                 response.end();
         }
