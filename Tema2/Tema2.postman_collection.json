@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "62bef869-2ee3-447e-8736-496c693b1ea5",
+		"name": "Tema2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ColectionGET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Movies/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Movies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ColectionPOST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Actors/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Actors",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CollectionPUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Actors/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Actors",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CollectionDELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Actors/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Actors",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemGET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Movies/?movie_name=Titanic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Movies",
+						""
+					],
+					"query": [
+						{
+							"key": "movie_name",
+							"value": "Titanic"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemPOST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Movies/?movie_name=Alien&lead_actor=SigourneyWeaver&year=1979",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Movies",
+						""
+					],
+					"query": [
+						{
+							"key": "movie_name",
+							"value": "Alien"
+						},
+						{
+							"key": "lead_actor",
+							"value": "SigourneyWeaver"
+						},
+						{
+							"key": "year",
+							"value": "1979"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemPUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Movies/?movie_name=HarryPotterandthePhilosophersStone&lead_actor=DanielRadcliffe&year=2012",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Movies",
+						""
+					],
+					"query": [
+						{
+							"key": "movie_name",
+							"value": "HarryPotterandthePhilosophersStone"
+						},
+						{
+							"key": "lead_actor",
+							"value": "DanielRadcliffe"
+						},
+						{
+							"key": "year",
+							"value": "2012"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemDELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/Movies/?movie_name= Alien",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"Movies",
+						""
+					],
+					"query": [
+						{
+							"key": "movie_name",
+							"value": " Alien"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
