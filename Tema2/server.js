@@ -2,7 +2,7 @@ const url = require('url');
 const http = require('http');
 const fs = require('fs')
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://AndreiG:Andrei22@tema2db-4tquw.gcp.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://AndreiG:<password>@tema2db-4tquw.gcp.mongodb.net/test?retryWrites=true&w=majority";
 //const req = require("request");
 
 
